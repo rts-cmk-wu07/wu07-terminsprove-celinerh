@@ -18,21 +18,21 @@ function Welcome() {
           </div>
         </div>
       </div>
-      <div className="grid h-1/2 overflow-hidden">
-        <div>
+      <div className="grid grid-rows-1 grid-cols-1 h-1/2 overflow-hidden">
+        <div className="row-span-full col-span-full">
           <img
-            className="row-span-full col-span-full object-cover w-full h-full"
+            className="object-cover w-full h-full"
             src="./images/welcome_center.jpg"
             alt="Girl working out"
             title="Girl working out"
           />
-          <Link
-            className="row-span-full col-span-full bg-white z-50"
-            to="/home"
-          >
-            Start Training
-          </Link>
         </div>
+        <Link
+          className="row-span-full col-span-full bg-white place-self-end mb-10 px-10 py-4 text-medium rounded-l-lg"
+          to="/home"
+        >
+          Start Training
+        </Link>
       </div>
     </div>
   );
