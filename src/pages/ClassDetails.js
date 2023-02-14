@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import useAsset from "../hooks/useAsset";
 import useClass from "../hooks/useClass";
 
