@@ -28,7 +28,7 @@ function Welcome() {
           />
         </div>
         <Link
-          className="row-span-full col-span-full bg-white place-self-end mb-10 px-10 py-4 text-medium rounded-l-lg"
+          className="row-span-full col-span-full place-self-end mb-10 button"
           to="/home"
         >
           Start Training
