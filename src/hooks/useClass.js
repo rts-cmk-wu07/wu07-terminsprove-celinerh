@@ -26,7 +26,7 @@ const useClass = () => {
         setIsPending(false);
         setError(error.message);
       });
-  }, []);
+  }, [id]);
 
   return { gymClass, error, isPending };
 };
