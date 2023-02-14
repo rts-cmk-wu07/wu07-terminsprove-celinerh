@@ -50,7 +50,6 @@ function Home() {
                 </SwiperSlide>
               ))}
             </Swiper>
-            <div></div>
           </div>
         </>
       )}
