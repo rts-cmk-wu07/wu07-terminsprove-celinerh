@@ -18,7 +18,7 @@ root.render(
         <Route element={<App />}>
           <Route index element={<Welcome />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/class" element={<ClassDetails />} />
+          <Route path="/classes/:id" element={<ClassDetails />} />
           <Route path="/search" element={<Search />} />
           <Route path="/schedule" element={<MySchedule />} />
           <Route path="*" element={<NotFound />} />
