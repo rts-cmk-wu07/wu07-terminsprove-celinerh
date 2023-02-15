@@ -88,7 +88,7 @@ function Search() {
         {trainerError && <p>{trainerError}</p>}
         {trainerIsPending && <p>Loading...</p>}
         {filteredTrainers && filteredTrainers?.length > 0 && (
-          <div className="overflow-scroll h-56 flex flex-col gap-4">
+          <div className="overflow-scroll max-h-56 flex flex-col gap-4">
             {filteredTrainers.map((trainer) => (
               <div
                 className="flex gap-4"
