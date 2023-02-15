@@ -3,13 +3,10 @@ import { Link } from "react-router-dom";
 function Welcome() {
   return (
     <div className="h-screen">
-      <div className="grid grid-rows-1 grid-cols-1 h-1/2 overflow-hidden relative">
-        <img
-          className="row-span-full col-span-full h-full font"
-          src="./images/welcome_background.jpg"
-          alt="Girl working out"
-          title="Girl working out"
-        />
+      <div
+        className="grid grid-rows-1 grid-cols-1 h-1/2 bg-[length:auto_200%] bg-[top_left_-25rem] bg-no-repeat"
+        style={{ backgroundImage: "url('/images/welcome_background.jpg')" }}
+      >
         <div className="row-span-full col-span-full text-white z-50 flex items-end gap-2 pb-10">
           <div className="bg-white w-14 h-1 mb-2"></div>
           <div>
