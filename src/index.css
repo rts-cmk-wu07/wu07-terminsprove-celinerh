@@ -7,3 +7,7 @@
     @apply bg-white px-10 py-4 text-medium rounded-l-lg;
   }
 }
+
+html {
+  font-family: Arial, sans-serif;
+}
