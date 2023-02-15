@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import GoBack from "../components/GoBack";
 import useAsset from "../hooks/useAsset";
 import useClass from "../hooks/useClass";
 
@@ -33,7 +34,8 @@ function ClassDetails() {
               alt={`${gymClass.className} workout class`}
               title={`${gymClass.className} workout class`}
             />
-            <div className="row-span-full col-span-full flex gap-4 items-end pl-4 pb-4">
+            <GoBack className="row-span-full col-span-full place-self-start px-4 py-6" />
+            <div className="row-span-full col-span-full flex gap-2 items-end pl-4 pb-4 h-fit place-self-end bg-black bg-opacity-30">
               <div>
                 <p className={`${titleSize} text-white`}>
                   {gymClass.className}
