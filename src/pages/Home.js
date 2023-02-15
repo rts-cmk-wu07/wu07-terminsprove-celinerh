@@ -32,7 +32,7 @@ function Home() {
               {classes[randomClassIndex].className}
             </h1>
           </Link>
-          <h2 className="text-medium mt-6">Classes for you</h2>
+          <h2 className="heading2">Classes for you</h2>
           <Swiper slidesPerView={2.5} spaceBetween={12} modules={[Pagination]}>
             {classes.map((gymClass) => (
               <SwiperSlide key={gymClass.id}>

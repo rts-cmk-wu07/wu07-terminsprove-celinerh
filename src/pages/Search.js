@@ -46,7 +46,7 @@ function Search() {
   return (
     <div className="p-6 h-screen">
       <Navigation goBack />
-      <h1 className="text-xlarge">Search</h1>
+      <h1 className="heading1">Search</h1>
       <div className="flex gap-2 items-center bg-secondary rounded-lg p-2 border border-gray-300">
         <BiSearch className="text-gray-400" />
         <input
@@ -58,7 +58,7 @@ function Search() {
         />
       </div>
       <div>
-        <h2 className="text-medium">Popular Classes</h2>
+        <h2 className="heading2">Popular Classes</h2>
         {classesError && <p>{classesError}</p>}
         {classesIsPending && <p>Loading...</p>}
         {filteredClasses && filteredClasses?.length > 0 && (
@@ -86,7 +86,7 @@ function Search() {
         )}
       </div>
       <div>
-        <h2 className="text-medium">Popular Trainers</h2>
+        <h2 className="heading2">Popular Trainers</h2>
         {trainerError && <p>{trainerError}</p>}
         {trainerIsPending && <p>Loading...</p>}
         {filteredTrainers && filteredTrainers?.length > 0 && (

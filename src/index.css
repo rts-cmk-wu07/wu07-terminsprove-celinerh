@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer components {
+  .heading1 {
+    @apply text-large;
+  }
+
+  .heading2 {
+    @apply text-medium mt-4;
+  }
+
   .button {
     @apply bg-white px-6 py-3 text-medium rounded-l-lg;
   }
