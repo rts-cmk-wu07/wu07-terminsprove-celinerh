@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import useTrainers from "../hooks/useTrainers";
 import Navigation from "../components/Navigation";
+import SliderCard from "../components/SliderCard";
 
 function Search() {
   const [query, setQuery] = useState("");
@@ -65,15 +66,7 @@ function Search() {
           <Swiper slidesPerView={2.5} spaceBetween={12} modules={[Pagination]}>
             {filteredClasses.map((gymClass) => (
               <SwiperSlide key={gymClass.id}>
-                <Link to={`/classes/${gymClass.id}`}>
-                  <img
-                    className="h-36 w-32 object-cover rounded-lg"
-                    src={gymClass.asset.url}
-                    alt={`${gymClass.className} workout class`}
-                    title={`${gymClass.className} workout class`}
-                  />
-                </Link>
-                <h3 className="truncate">{gymClass.className}</h3>
+                <SliderCard gymClass={gymClass} />
               </SwiperSlide>
             ))}
           </Swiper>
