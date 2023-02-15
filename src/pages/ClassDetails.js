@@ -1,15 +1,24 @@
+import { useNavigate } from "react-router-dom";
 import useAsset from "../hooks/useAsset";
 import useClass from "../hooks/useClass";
 
 function ClassDetails() {
+  const navigate = useNavigate();
   const { gymClass, error, isPending } = useClass();
   const {
     asset,
     error: assetError,
     isPending: assetIsPending,
   } = useAsset(gymClass?.trainer.assetId);
-  console.log(gymClass);
-  console.log(asset);
+
+  if (!gymClass && !isPending) {
+    navigate("/404");
+  }
+
+  const titleSize =
+    gymClass?.className.length > 20
+      ? "text-medium leading-10"
+      : "text-large leading-[4rem]";
 
   return (
     <div className="h-full">
@@ -26,7 +35,7 @@ function ClassDetails() {
             />
             <div className="row-span-full col-span-full flex gap-4 items-end pl-4 pb-4">
               <div>
-                <p className="text-white text-large leading-[4rem]">
+                <p className={`${titleSize} text-white`}>
                   {gymClass.className}
                 </p>
               </div>
