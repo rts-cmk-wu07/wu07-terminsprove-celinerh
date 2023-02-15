@@ -7,6 +7,7 @@ import { Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import useTrainers from "../hooks/useTrainers";
+import Navigation from "../components/Navigation";
 
 function Search() {
   const [query, setQuery] = useState("");
@@ -44,6 +45,7 @@ function Search() {
 
   return (
     <div className="p-6 h-screen">
+      <Navigation goBack />
       <h1 className="text-xlarge">Search</h1>
       <div className="flex gap-2 items-center bg-secondary rounded-lg p-2 border border-gray-300">
         <BiSearch className="text-gray-400" />
