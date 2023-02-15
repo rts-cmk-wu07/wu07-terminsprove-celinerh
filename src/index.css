@@ -4,7 +4,7 @@
 
 @layer components {
   .button {
-    @apply bg-white px-10 py-4 text-medium rounded-l-lg;
+    @apply bg-white px-6 py-3 text-medium rounded-l-lg;
   }
 }
 
