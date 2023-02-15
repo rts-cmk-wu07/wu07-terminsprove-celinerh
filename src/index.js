@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Welcome from "./pages/Welcome";
 import Home from "./pages/Home";
 import ClassDetails from "./pages/ClassDetails";
@@ -21,7 +21,8 @@ root.render(
           <Route path="/classes/:id" element={<ClassDetails />} />
           <Route path="/search" element={<Search />} />
           <Route path="/schedule" element={<MySchedule />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/404" />} />
         </Route>
       </Routes>
     </BrowserRouter>
