@@ -29,7 +29,17 @@ function MySchedule() {
           ))}
         </div>
       )}
-      {user?.classes.length === 0 && <p>You have no classes scheduled.</p>}
+      {user?.classes.length === 0 && (
+        <div className="flex flex-col gap-8">
+          <p>You have no classes scheduled.</p>
+          <Link
+            className="bg-primary rounded-lg text-white py-2 px-4 tracking-widest text-md w-fit"
+            to="/home"
+          >
+            Find classes to join!
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
