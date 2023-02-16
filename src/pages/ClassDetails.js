@@ -1,9 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import GoBack from "../components/GoBack";
+import Navigation from "../components/Navigation";
+import { useToken } from "../contexts/TokenContext";
 import useAsset from "../hooks/useAsset";
 import useClass from "../hooks/useClass";
 
 function ClassDetails() {
+  const { token } = useToken();
+
   const navigate = useNavigate();
   const { gymClass, error, isPending } = useClass();
   const {
@@ -34,14 +37,15 @@ function ClassDetails() {
               alt={`${gymClass.className} workout class`}
               title={`${gymClass.className} workout class`}
             />
-            <GoBack className="row-span-full col-span-full place-self-start px-4 py-6" />
-            <div className="row-span-full col-span-full flex gap-2 items-end pl-4 pb-4 h-fit place-self-end bg-black bg-opacity-30">
-              <div>
-                <p className={`${titleSize} text-white`}>
-                  {gymClass.className}
-                </p>
-              </div>
-              <button className="button whitespace-nowrap">Sign up</button>
+            <Navigation
+              className="row-span-full col-span-full py-7 px-6 bg-black bg-opacity-30 h-fit"
+              goBack
+            />
+            <div className="row-span-full col-span-full flex gap-2 items-end pl-4 pb-4 h-fit place-self-end bg-black bg-opacity-30 w-full">
+              <p className={`${titleSize} text-white`}>{gymClass.className}</p>
+              {token && (
+                <button className="button whitespace-nowrap">Sign up</button>
+              )}
             </div>
           </div>
           <div className="h-1/2 px-6 py-4 flex flex-col gap-6">
