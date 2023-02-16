@@ -1,28 +1,51 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import { useToken } from "../contexts/TokenContext";
+import handleClassLeave from "../features/classes/handleClassLeave";
+import handleClassSignUp from "../features/classes/handleClassSignUp";
 import useAsset from "../hooks/useAsset";
 import useClass from "../hooks/useClass";
+import useUser from "../hooks/useUser";
 
 function ClassDetails() {
-  const { token } = useToken();
-
   const navigate = useNavigate();
+  const { user } = useUser();
+  const { token } = useToken();
+  const [isSignedUp, setIsSignedUp] = useState(false);
+  const [isAlreadySignedUpForClassDay, setIsAlreadySignedUpForClassDay] =
+    useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
+  console.log(user);
+
   const { gymClass, error, isPending } = useClass();
-  const {
-    asset,
-    error: assetError,
-    isPending: assetIsPending,
-  } = useAsset(gymClass?.trainer.assetId);
+  const { asset } = useAsset(gymClass?.trainer.assetId);
 
   if (!gymClass && !isPending) {
     navigate("/404");
   }
 
   const titleSize =
-    gymClass?.className.length > 20
+    gymClass?.className.length > 20 && user
       ? "text-medium leading-10"
       : "text-large leading-[4rem]";
+
+  useEffect(() => {
+    if (!user) return;
+
+    setIsSignedUp(
+      user.classes.some((userClass) => userClass?.id === gymClass?.id)
+    );
+
+    setIsAlreadySignedUpForClassDay(
+      user.classes.some(
+        (userClass) =>
+          userClass?.classDay === gymClass?.classDay &&
+          userClass?.id !== gymClass?.id
+      )
+    );
+  }, [user, gymClass]);
 
   return (
     <div className="h-full">
@@ -43,13 +66,39 @@ function ClassDetails() {
             />
             <div className="row-span-full col-span-full flex gap-2 items-end pl-4 pb-4 h-fit place-self-end bg-black bg-opacity-30 w-full">
               <p className={`${titleSize} text-white`}>{gymClass.className}</p>
-              {token && (
-                <button className="button whitespace-nowrap">Sign up</button>
+              {user && (
+                <button
+                  className="button whitespace-nowrap"
+                  onClick={() => {
+                    if (!isSignedUp) {
+                      if (isAlreadySignedUpForClassDay) {
+                        setShowAlert(true);
+                        setTimeout(() => {
+                          setShowAlert(false);
+                        }, 4000);
+                        return;
+                      }
+
+                      handleClassSignUp(user.id, token.token, gymClass.id);
+                      setIsSignedUp(true);
+                    } else {
+                      handleClassLeave(user.id, token.token, gymClass.id);
+                      setIsSignedUp(false);
+                    }
+                  }}
+                >
+                  {isSignedUp ? "Leave" : "Sign up"}
+                </button>
               )}
             </div>
           </div>
-          <div className="h-1/2 px-6 py-4 flex flex-col gap-6">
+          <div className="relative h-1/2 px-6 py-4 flex flex-col gap-6">
             <div>
+              {showAlert && isAlreadySignedUpForClassDay && (
+                <p className="absolute top-0 right-1 text-red-600 text-xs ">
+                  You are already signed up for a class on this day!
+                </p>
+              )}
               <p className="text-small">Schedule</p>
               <div className="flex justify-between">
                 <p>{gymClass.classDay}</p>
