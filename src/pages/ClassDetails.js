@@ -12,15 +12,13 @@ function ClassDetails() {
   const navigate = useNavigate();
   const { user } = useUser();
   const { token } = useToken();
+  const { gymClass, error, isPending } = useClass();
+  const { asset } = useAsset(gymClass?.trainer.assetId);
+
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [isAlreadySignedUpForClassDay, setIsAlreadySignedUpForClassDay] =
     useState(false);
   const [showAlert, setShowAlert] = useState(false);
-
-  console.log(user);
-
-  const { gymClass, error, isPending } = useClass();
-  const { asset } = useAsset(gymClass?.trainer.assetId);
 
   if (!gymClass && !isPending) {
     navigate("/404");
