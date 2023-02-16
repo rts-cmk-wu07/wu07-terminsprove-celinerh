@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "../components/Navigation";
+import Ratings from "../components/Ratings";
 import { useToken } from "../contexts/TokenContext";
 import handleClassLeave from "../features/classes/handleClassLeave";
 import handleClassSignUp from "../features/classes/handleClassSignUp";
 import useAsset from "../hooks/useAsset";
 import useClass from "../hooks/useClass";
+import useRatings from "../hooks/useRatings";
 import useUser from "../hooks/useUser";
 
 function ClassDetails() {
@@ -14,7 +16,7 @@ function ClassDetails() {
   const { token } = useToken();
   const { gymClass, error, isPending } = useClass();
   const { asset } = useAsset(gymClass?.trainer.assetId);
-
+  const { ratings } = useRatings(gymClass?.id);
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [isAlreadySignedUpForClassDay, setIsAlreadySignedUpForClassDay] =
     useState(false);
@@ -63,8 +65,15 @@ function ClassDetails() {
               goBack
             />
             <div className="row-span-full col-span-full flex gap-2 items-end pl-4 pb-4 h-fit place-self-end bg-black bg-opacity-30 w-full">
-              <p className={`${titleSize} text-white`}>{gymClass.className}</p>
-              {user && (
+              <div className="pr-4 w-full">
+                <p className={`${titleSize} text-white`}>
+                  {gymClass.className}
+                </p>
+
+                <Ratings ratings={ratings} />
+              </div>
+
+              {user && token && (
                 <button
                   className="button whitespace-nowrap"
                   onClick={() => {

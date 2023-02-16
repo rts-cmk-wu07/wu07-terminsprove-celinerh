@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import useRatings from "../hooks/useRatings";
+import Ratings from "./Ratings";
 
 function SliderCard({ gymClass }) {
+  const { ratings, isPending } = useRatings(gymClass.id);
+
   return (
     <>
       <Link to={`/classes/${gymClass.id}`}>
@@ -12,6 +16,7 @@ function SliderCard({ gymClass }) {
         />
       </Link>
       <h3 className="truncate">{gymClass.className}</h3>
+      {!isPending && <Ratings ratings={ratings} />}
     </>
   );
 }
