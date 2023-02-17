@@ -38,12 +38,6 @@ function Search() {
       : true
   );
 
-  const filteredTrainers = trainers?.filter((trainer) =>
-    query
-      ? trainer.trainerName.toLowerCase().includes(query.toLowerCase())
-      : true
-  );
-
   return (
     <div className="p-6 h-screen">
       <Navigation goBack />
@@ -58,57 +52,75 @@ function Search() {
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
-      <div>
-        <h2 className="heading2">Popular Classes</h2>
-        {classesError && <p>{classesError}</p>}
-        {classesIsPending && <p>Loading...</p>}
-        {filteredClasses && filteredClasses?.length > 0 && (
-          <Swiper slidesPerView={2.5} spaceBetween={12} modules={[Pagination]}>
-            {filteredClasses.map((gymClass) => (
-              <SwiperSlide key={gymClass.id}>
-                <SliderCard gymClass={gymClass} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        )}
-        {filteredClasses?.length === 0 && (
-          <p>
-            Your search did not give any results. Try to search for something
-            else.
-          </p>
-        )}
-      </div>
-      <div>
-        <h2 className="heading2">Popular Trainers</h2>
-        {trainerError && <p>{trainerError}</p>}
-        {trainerIsPending && <p>Loading...</p>}
-        {filteredTrainers && filteredTrainers?.length > 0 && (
-          <div className="overflow-scroll max-h-56 flex flex-col gap-4">
-            {filteredTrainers.map((trainer) => (
-              <div
-                className="flex gap-4"
-                key={`${trainer.id}${trainer.trainerName}`}
+      {!query && (
+        <>
+          <div>
+            <h2 className="heading2">Popular Classes</h2>
+            {classesError && <p>{classesError}</p>}
+            {classesIsPending && <p>Loading...</p>}
+            {classes && classes?.length > 0 && (
+              <Swiper
+                slidesPerView={2.5}
+                spaceBetween={12}
+                modules={[Pagination]}
               >
-                <Link to={``}>
-                  <img
-                    className="h-28 w-24 object-cover rounded-lg"
-                    src={trainer.asset.url}
-                    alt={trainer.trainerName}
-                    title={trainer.trainerName}
-                  />
-                </Link>
-                <h3>{trainer.trainerName}</h3>
-              </div>
-            ))}
+                {classes.map((gymClass) => (
+                  <SwiperSlide key={gymClass.id}>
+                    <SliderCard gymClass={gymClass} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            )}
           </div>
-        )}
-        {filteredTrainers?.length === 0 && (
-          <p>
-            Your search did not give any results. Try to search for something
-            else.
-          </p>
-        )}
-      </div>
+          <div>
+            <h2 className="heading2">Popular Trainers</h2>
+            {trainerError && <p>{trainerError}</p>}
+            {trainerIsPending && <p>Loading...</p>}
+            {trainers && trainers?.length > 0 && (
+              <div className="overflow-scroll max-h-56 flex flex-col gap-4">
+                {trainers.map((trainer) => (
+                  <div
+                    className="flex gap-4"
+                    key={`${trainer.id}${trainer.trainerName}`}
+                  >
+                    <Link to={``}>
+                      <img
+                        className="h-28 w-24 object-cover rounded-lg"
+                        src={trainer.asset.url}
+                        alt={trainer.trainerName}
+                        title={trainer.trainerName}
+                      />
+                    </Link>
+                    <h3>{trainer.trainerName}</h3>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
+      )}
+      {query && (
+        <div>
+          <h2 className="heading2">Result</h2>
+          {classesError && <p>{classesError}</p>}
+          {classesIsPending && <p>Loading...</p>}
+          {filteredClasses && filteredClasses?.length > 0 && (
+            <div className="flex flex-col gap-8 w-fit">
+              {filteredClasses.map((gymClass) => (
+                <div key={gymClass.id}>
+                  <SliderCard gymClass={gymClass} />
+                </div>
+              ))}
+            </div>
+          )}
+          {filteredClasses?.length === 0 && (
+            <p>
+              Your search did not give any results. Try to search for something
+              else.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
