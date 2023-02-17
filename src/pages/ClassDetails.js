@@ -5,6 +5,7 @@ import Ratings from "../components/Ratings";
 import { useToken } from "../contexts/TokenContext";
 import handleClassLeave from "../features/classes/handleClassLeave";
 import handleClassSignUp from "../features/classes/handleClassSignUp";
+import handleRate from "../features/classes/handleRate";
 import useAsset from "../hooks/useAsset";
 import useClass from "../hooks/useClass";
 import useRatings from "../hooks/useRatings";
@@ -16,11 +17,13 @@ function ClassDetails() {
   const { token } = useToken();
   const { gymClass, error, isPending } = useClass();
   const { asset } = useAsset(gymClass?.trainer.assetId);
-  const { ratings } = useRatings(gymClass?.id);
+  const { ratings, mutateRatings } = useRatings(gymClass?.id);
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [isAlreadySignedUpForClassDay, setIsAlreadySignedUpForClassDay] =
     useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [hasRated, setHasRated] = useState(false);
+  const [showRateOptions, setShowRateOptions] = useState(false);
 
   if (!gymClass && !isPending) {
     navigate("/404");
@@ -39,13 +42,17 @@ function ClassDetails() {
     );
 
     setIsAlreadySignedUpForClassDay(
-      user.classes.some(
+      user.classes?.some(
         (userClass) =>
           userClass?.classDay === gymClass?.classDay &&
           userClass?.id !== gymClass?.id
       )
     );
   }, [user, gymClass]);
+
+  useEffect(() => {
+    setHasRated(ratings?.some((rating) => rating?.userId === user?.id));
+  }, [ratings, user, gymClass]);
 
   return (
     <div className="h-full">
@@ -64,12 +71,11 @@ function ClassDetails() {
               className="row-span-full col-span-full py-7 px-6 bg-black bg-opacity-30 h-fit"
               goBack
             />
-            <div className="row-span-full col-span-full flex gap-2 items-end pl-4 pb-4 h-fit place-self-end bg-black bg-opacity-30 w-full">
-              <div className="pr-4 w-full">
+            <div className="row-span-full col-span-full flex justify-between items-end pl-4 pb-4 h-fit place-self-end bg-black bg-opacity-30 w-full">
+              <div className="pr-4 w-full max-w-[190px]">
                 <p className={`${titleSize} text-white`}>
                   {gymClass.className}
                 </p>
-
                 <Ratings ratings={ratings} />
               </div>
 
@@ -99,7 +105,7 @@ function ClassDetails() {
               )}
             </div>
           </div>
-          <div className="relative h-1/2 px-6 py-4 flex flex-col gap-6">
+          <div className="relative h-1/2 px-6 py-4 flex flex-col gap-4">
             <div>
               {showAlert && isAlreadySignedUpForClassDay && (
                 <p className="absolute top-0 right-1 text-red-600 text-xs ">
@@ -113,6 +119,51 @@ function ClassDetails() {
               </div>
             </div>
             <p>{gymClass.classDescription}</p>
+            {user && !hasRated && (
+              <div className="flex gap-3">
+                <button
+                  className="bg-primary rounded-lg text-white px-2 py-2 tracking-widest text-sm"
+                  onClick={(e) => {
+                    setShowRateOptions(!showRateOptions);
+                  }}
+                >
+                  Rate class
+                </button>
+                {showRateOptions && (
+                  <ul
+                    className="flex items-center gap-3 text-white text-sm"
+                    onClick={async (e) => {
+                      const rating = parseInt(e.target.innerText);
+                      await handleRate(
+                        user.id,
+                        token.token,
+                        gymClass.id,
+                        rating
+                      );
+                      mutateRatings();
+                      setHasRated(true);
+                      setShowRateOptions(false);
+                    }}
+                  >
+                    <li className="rounded-full bg-gray-400 w-8 h-8 flex items-center justify-center">
+                      1
+                    </li>
+                    <li className="rounded-full bg-gray-400 w-8 h-8 flex items-center justify-center">
+                      2
+                    </li>
+                    <li className="rounded-full bg-gray-400 w-8 h-8 flex items-center justify-center">
+                      3
+                    </li>
+                    <li className="rounded-full bg-gray-400 w-8 h-8 flex items-center justify-center">
+                      4
+                    </li>
+                    <li className="rounded-full bg-gray-400  w-8 h-8 flex items-center justify-center">
+                      5
+                    </li>
+                  </ul>
+                )}
+              </div>
+            )}
             <div>
               <p className="text-small">Trainer</p>
               <div className="flex gap-6">
