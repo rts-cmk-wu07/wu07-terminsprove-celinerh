@@ -23,6 +23,7 @@ function Menu({ setShowMenu }) {
 
   const {
     register,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: "onBlur", resolver: yupResolver(schema) });
@@ -40,12 +41,26 @@ function Menu({ setShowMenu }) {
     })
       .then((response) => {
         if (!response.ok) {
+          if (response.status === 401) {
+            setError("username", {
+              type: "custom",
+              message: "Invalid username or password",
+            });
+            setError("password", {
+              type: "custom",
+              message: "Invalid username or password",
+            });
+          }
+
           throw Error("Could not fetch the data for that resource");
         }
         return response.json();
       })
       .then((data) => {
         setToken(data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
