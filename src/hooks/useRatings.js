@@ -5,7 +5,7 @@ const useRatings = (classId) => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(true);
 
-  useEffect(() => {
+  const mutateRatings = () => {
     fetch(`http://localhost:4000/api/v1/classes/${classId}/ratings`, {
       method: "GET",
     })
@@ -24,9 +24,13 @@ const useRatings = (classId) => {
         setIsPending(false);
         setError(error.message);
       });
+  };
+
+  useEffect(() => {
+    mutateRatings();
   }, [classId]);
 
-  return { ratings, error, isPending };
+  return { ratings, error, isPending, mutateRatings };
 };
 
 export default useRatings;
