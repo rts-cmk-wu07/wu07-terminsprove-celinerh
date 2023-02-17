@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Navigation from "../components/Navigation";
-import { useToken } from "../contexts/TokenContext";
 import useUser from "../hooks/useUser";
 
 function MySchedule() {
