@@ -1,5 +1,3 @@
-import React from "react";
-
 function Ratings({ ratings }) {
   const ratingsSum = ratings?.reduce((acc, rating) => {
     return acc + rating.rating;
@@ -10,9 +8,10 @@ function Ratings({ ratings }) {
   return (
     <div className="relative w-full h-5 bg-secondary">
       <div
-        className={`${
-          ratingsAverage ? `w-[${ratingsAverage}/5]` : "w-px"
-        } bg-primary h-5`}
+        style={{
+          width: `${ratingsAverage ? `${(ratingsAverage / 5) * 100}%` : "1px"}`,
+        }}
+        className={`bg-primary h-5`}
       ></div>
       {!ratingsAverage && (
         <p className="absolute top-[2px] left-2 text-xs text-gray-500">
